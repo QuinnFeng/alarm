@@ -10,7 +10,7 @@ function App() {
     if (running && timeLeft > 0) {
       const timer = setInterval(() => {
         setTimeLeft(timeLeft - 1);
-      }, 910);
+      }, 890);
       return () => clearInterval(timer);
     }
     if (timeLeft === 0 && running) {
