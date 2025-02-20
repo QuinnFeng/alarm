@@ -3,7 +3,6 @@ import "./App.css";
 import sound from "./assets/rooster-crowing-type-01-293308.mp3";
 
 function App() {
-  const [minutes, setMinutes] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
   const [running, setRunning] = useState(false);
 
@@ -11,21 +10,17 @@ function App() {
     if (running && timeLeft > 0) {
       const timer = setInterval(() => {
         setTimeLeft(timeLeft - 1);
-      }, 850);
+      }, 910);
       return () => clearInterval(timer);
     }
     if (timeLeft === 0 && running) {
       playAlarm();
       setRunning(false);
     }
-  }, [minutes, timeLeft, running]);
+  }, [timeLeft, running]);
 
   const startTimer = () => {
-    const totalSeconds = minutes * 60;
-    if (totalSeconds > 0) {
-      setTimeLeft(totalSeconds);
-      setRunning(true);
-    }
+    setRunning(true);
   };
 
   const playAlarm = () => {
@@ -48,7 +43,7 @@ function App() {
       <div className="flex-col items-center gap-3">
         <div className="flex flex-col items-center">
           <select
-            onChange={(e) => setMinutes(Number(e.target.value))}
+            onChange={(e) => setTimeLeft(+e.target.value * 60)}
             className="w-24 p-2 border border-gray-300 rounded-lg text-center"
           >
             {[0, 1, 2, 5, 10, 15, 20, 30, 59].map((value) => (
