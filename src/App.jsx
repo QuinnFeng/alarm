@@ -16,11 +16,12 @@ function App() {
     if (timeLeft === 0 && running) {
       playAlarm();
       setRunning(false);
+      setTimeLeft(1200);
     }
   }, [timeLeft, running]);
 
   const startTimer = () => {
-    setRunning(true);
+    setRunning(!running);
   };
 
   const playAlarm = () => {
@@ -46,7 +47,7 @@ function App() {
             onChange={(e) => setTimeLeft(+e.target.value * 60)}
             className="w-24 p-2 border border-gray-300 rounded-lg text-center"
           >
-            {[0, 1, 2, 5, 10, 15, 20, 30, 59].map((value) => (
+            {[0, 1, 2, 5, 10, 15, 20].map((value) => (
               <option
                 key={value}
                 value={value}
@@ -74,7 +75,6 @@ function App() {
 
       <button
         onClick={startTimer}
-        disabled={running}
         className={`px-4 py-2 ${
           running ? "bg-red-500" : "bg-blue-500"
         } text-white rounded-lg hover:bg-blue-600`}
@@ -82,11 +82,9 @@ function App() {
         Start Countdown
       </button>
 
-      {running && (
-        <h2 className="text-lg font-semibold text-red-600">
-          Time Left: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
-        </h2>
-      )}
+      <h2 className="text-lg font-semibold text-red-600">
+        Time Left: {Math.floor(timeLeft / 60)}m {timeLeft % 60}s
+      </h2>
     </div>
   );
 }
