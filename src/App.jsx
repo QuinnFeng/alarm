@@ -16,7 +16,6 @@ function App() {
     if (timeLeft === 0 && running) {
       playAlarm();
       setRunning(false);
-      setTimeLeft(1200);
     }
   }, [timeLeft, running]);
 
