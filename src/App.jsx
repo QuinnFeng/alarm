@@ -9,8 +9,8 @@ function App() {
   useEffect(() => {
     if (running && timeLeft > 0) {
       const timer = setInterval(() => {
-        setTimeLeft(timeLeft - 1);
-      }, 890);
+        setTimeLeft((prev) => prev - 1);
+      }, 890); // Ensure accurate interval
       return () => clearInterval(timer);
     }
     if (timeLeft === 0 && running) {
@@ -25,16 +25,17 @@ function App() {
 
   const playAlarm = () => {
     const audio = new Audio(sound);
-    audio.play();
+    audio
+      .play()
+      .catch((error) => console.error("Audio playback failed:", error));
   };
 
-  // Increment and decrement functions for minutes
   const incrementTime = () => {
-    setTimeLeft(timeLeft + 60);
+    setTimeLeft((prev) => prev + 60);
   };
 
   const decrementTime = () => {
-    setTimeLeft(timeLeft - 60);
+    setTimeLeft((prev) => Math.max(prev - 60, 0)); // Prevents negative time
   };
 
   return (
@@ -43,14 +44,12 @@ function App() {
       <div className="flex-col items-center gap-3">
         <div className="flex flex-col items-center">
           <select
+            value={timeLeft / 60}
             onChange={(e) => setTimeLeft(+e.target.value * 60)}
             className="w-24 p-2 border border-gray-300 rounded-lg text-center"
           >
             {[0, 1, 2, 5, 10, 15, 20].map((value) => (
-              <option
-                key={value}
-                value={value}
-              >
+              <option key={value} value={value}>
                 {value}
               </option>
             ))}
@@ -78,7 +77,7 @@ function App() {
           running ? "bg-red-500" : "bg-blue-500"
         } text-white rounded-lg hover:bg-blue-600`}
       >
-        Start Countdown
+        {running ? "Stop Countdown" : "Start Countdown"}
       </button>
 
       <h2 className="text-lg font-semibold text-red-600">
